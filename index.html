@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LSPD Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-950:#050d1f;
+    --navy-900:#0a1a3c;
+    --navy-800:#0f2350;
+    --navy-700:#1c3868;
+    --blue-accent:#3b6fd1;
+    --gold:#c9a227;
+    --gold-light:#e6cd78;
+    --paper:#f5f7fb;
+    --white:#ffffff;
+    --ink:#182238;
+    --ink-soft:#5a6478;
+    --border:#dde3ee;
+    --danger:#b0293a;
+    --danger-bg:#fbeaec;
+    --success:#1f7a4d;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    font-size:15px;
+    line-height:1.6;
+  }
+  h1,h2,h3,h4{
+    font-family:'Oswald',sans-serif;
+    letter-spacing:.02em;
+    color:var(--navy-900);
+    margin:0 0 .5em;
+  }
+  code, .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:var(--blue-accent);}
+  button{font-family:'Inter',sans-serif;cursor:pointer;}
+
+  /* ---------- layout shell ---------- */
+  .shell{display:flex;min-height:100vh;}
+
+  /* ---------- sidebar ---------- */
+  .sidebar{
+    width:270px;
+    flex-shrink:0;
+    background:linear-gradient(180deg,var(--navy-950),var(--navy-900));
+    color:#cfd8ee;
+    padding:0 0 24px;
+    position:sticky;
+    top:0;
+    height:100vh;
+    overflow-y:auto;
+  }
+  .sidebar-brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:22px 20px 18px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .badge-mark{
+    width:42px;height:42px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .sidebar-brand .title{font-family:'Oswald',sans-serif;color:#fff;font-size:15px;font-weight:600;line-height:1.25;}
+  .sidebar-brand .subtitle{font-size:11px;color:var(--gold-light);letter-spacing:.12em;text-transform:uppercase;}
+
+  .nav-group{padding:16px 10px 4px;}
+  .nav-label{font-size:10.5px;text-transform:uppercase;letter-spacing:.14em;color:#7c88a8;padding:8px 12px 6px;}
+  .nav-link{
+    display:flex;align-items:center;gap:10px;
+    width:100%;text-align:left;
+    background:none;border:none;color:#c3ccdf;
+    padding:10px 12px;border-radius:8px;
+    font-size:13.5px;font-weight:500;
+    margin-bottom:2px;
+  }
+  .nav-link svg{flex-shrink:0;opacity:.8;}
+  .nav-link:hover{background:rgba(255,255,255,.06);color:#fff;}
+  .nav-link.active{background:var(--navy-700);color:#fff;box-shadow:inset 3px 0 0 var(--gold);}
+
+  .sidebar-officer{
+    margin:16px 14px 0;padding:12px;
+    border-top:1px solid rgba(255,255,255,.08);
+    padding-top:16px;
+    font-size:12.5px;color:#9fabc7;
+  }
+  .sidebar-officer b{color:#fff;display:block;font-size:13px;}
+
+  /* ---------- main ---------- */
+  .main{flex:1;min-width:0;}
+  .topbar{
+    display:none;
+    align-items:center;justify-content:space-between;
+    background:var(--navy-900);color:#fff;padding:14px 16px;
+    position:sticky;top:0;z-index:20;
+  }
+  .topbar button{background:none;border:none;color:#fff;}
+  .content{max-width:920px;margin:0 auto;padding:40px 44px 80px;}
+
+  .page{display:none;}
+  .page.active{display:block;animation:fadeIn .25s ease;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+
+  .page-header{
+    border-bottom:3px solid var(--navy-900);
+    padding-bottom:14px;margin-bottom:28px;
+    display:flex;justify-content:space-between;align-items:flex-end;gap:20px;
+  }
+  .page-header .eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:4px;}
+  .page-header h1{font-size:28px;margin:0;}
+  .print-btn{
+    background:var(--navy-900);color:#fff;border:none;
+    padding:9px 16px;border-radius:8px;font-size:12.5px;font-weight:600;
+    display:flex;align-items:center;gap:7px;white-space:nowrap;
+  }
+  .print-btn:hover{background:var(--navy-700);}
+
+  section.block{margin-bottom:34px;}
+  section.block h2{font-size:19px;border-left:4px solid var(--gold);padding-left:12px;margin-bottom:14px;}
+  section.block h3{font-size:15px;color:var(--navy-800);margin-top:18px;}
+  p{margin:0 0 12px;color:var(--ink);}
+  .lead{color:var(--ink-soft);font-size:15.5px;}
+
+  .card{
+    background:var(--white);border:1px solid var(--border);
+    border-radius:var(--radius);padding:18px 20px;margin-bottom:14px;
+  }
+  .card.navy{background:var(--navy-900);color:#eaeefb;border:none;}
+  .card.navy h3{color:#fff;}
+
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-bottom:16px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+  th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--border);}
+  th{background:var(--navy-900);color:#fff;font-family:'Oswald',sans-serif;font-weight:500;font-size:12px;letter-spacing:.04em;text-transform:uppercase;}
+  tr:last-child td{border-bottom:none;}
+  tr:nth-child(even) td{background:#fafbfd;}
+  td.code{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--navy-800);white-space:nowrap;}
+
+  .steps{counter-reset:step;list-style:none;padding:0;margin:0;}
+  .steps li{
+    counter-increment:step;position:relative;padding:14px 16px 14px 52px;
+    background:var(--white);border:1px solid var(--border);border-radius:var(--radius);
+    margin-bottom:10px;
+  }
+  .steps li::before{
+    content:counter(step);position:absolute;left:14px;top:14px;
+    width:26px;height:26px;border-radius:50%;background:var(--navy-900);color:var(--gold-light);
+    font-family:'Oswald',sans-serif;font-weight:700;font-size:13px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .steps li b{color:var(--navy-900);}
+
+  .radio-box{
+    background:var(--navy-950);color:#8ff0a4;font-family:'JetBrains Mono',monospace;
+    font-size:13px;padding:14px 16px;border-radius:8px;border:1px solid #1e3357;
+    margin:10px 0;white-space:pre-wrap;line-height:1.7;
+  }
+  .radio-box .tag{color:#6d8ad8;}
+
+  .callout{border-left:4px solid var(--danger);background:var(--danger-bg);padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13.5px;}
+  .callout b{color:var(--danger);}
+  .callout.gold{border-left-color:var(--gold);background:#fbf6e6;}
+  .callout.gold b{color:#8a6d10;}
+
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+  .pill{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;background:var(--navy-900);color:#fff;letter-spacing:.04em;}
+  .pill.gold{background:var(--gold);color:#3a2e05;}
+  .pill.danger{background:var(--danger);color:#fff;}
+
+  .flow{display:flex;flex-direction:column;gap:0;}
+  .flow-step{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;position:relative;}
+  .flow-arrow{align-self:center;color:var(--navy-700);font-size:20px;margin:2px 0;}
+  .flow-branch{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:2px 0;}
+  .flow-branch .flow-step{border-top:3px solid var(--blue-accent);}
+  .flow-branch .flow-step.bad{border-top-color:var(--danger);}
+  .flow-branch .flow-step.good{border-top-color:var(--success);}
+
+  footer.page-footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--border);font-size:12px;color:var(--ink-soft);display:flex;justify-content:space-between;}
+
+  /* ---------- report generator ---------- */
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
+  .field label{font-size:12px;font-weight:600;color:var(--navy-800);}
+  .field input, .field select, .field textarea{
+    border:1px solid var(--border);border-radius:8px;padding:9px 11px;font-family:'Inter',sans-serif;font-size:13.5px;
+    background:var(--white);color:var(--ink);
+  }
+  .field textarea{resize:vertical;min-height:110px;}
+  .evidence-row{display:grid;grid-template-columns:1fr 1.4fr auto;gap:8px;margin-bottom:8px;align-items:center;}
+  .evidence-row input{border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;}
+  .icon-btn{background:var(--danger-bg);color:var(--danger);border:none;border-radius:6px;padding:8px 10px;font-size:12px;font-weight:700;}
+  .add-btn{background:var(--navy-900);color:#fff;border:none;border-radius:8px;padding:9px 14px;font-size:12.5px;font-weight:600;margin-top:2px;}
+  .add-btn:hover{background:var(--navy-700);}
+  .output-box{
+    background:var(--navy-950);color:#d7e2fb;font-family:'JetBrains Mono',monospace;font-size:12.5px;
+    padding:16px;border-radius:8px;white-space:pre-wrap;line-height:1.6;max-height:420px;overflow-y:auto;
+    border:1px solid #1e3357;
+  }
+  .copy-btn{background:var(--gold);color:#3a2e05;border:none;border-radius:8px;padding:9px 16px;font-size:12.5px;font-weight:700;margin-top:10px;}
+  .copy-btn:hover{background:var(--gold-light);}
+  .toast{position:fixed;bottom:24px;right:24px;background:var(--navy-900);color:#fff;padding:12px 18px;border-radius:8px;font-size:13px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .25s, transform .25s;transform:translateY(10px);z-index:100;}
+  .toast.show{opacity:1;transform:none;}
+
+  @media (max-width:860px){
+    .sidebar{position:fixed;left:-280px;transition:left .25s;z-index:30;width:260px;box-shadow:4px 0 20px rgba(0,0,0,.25);}
+    .sidebar.open{left:0;}
+    .topbar{display:flex;}
+    .content{padding:26px 18px 60px;}
+    .form-grid,.grid-3,.grid-2{grid-template-columns:1fr;}
+    .flow-branch{grid-template-columns:1fr;}
+    .page-header{flex-direction:column;align-items:flex-start;}
+  }
+
+  @media print{
+    .sidebar,.topbar,.print-btn,.nav-link{display:none !important;}
+    .shell{display:block;}
+    .content{padding:0;max-width:100%;}
+    body{background:#fff;}
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="badge-mark">
+        <svg width="42" height="42" viewBox="0 0 42 42" fill="none">
+          <path d="M21 2 L37 9 V21 C37 30 30 37 21 40 C12 37 5 30 5 21 V9 Z" fill="#0f2350" stroke="#c9a227" stroke-width="1.5"/>
+          <circle cx="21" cy="19" r="8" fill="none" stroke="#e6cd78" stroke-width="1.3"/>
+          <text x="21" y="23" font-family="Oswald" font-size="9" fill="#e6cd78" text-anchor="middle" font-weight="700">LSPD</text>
+        </svg>
+      </div>
+      <div>
+        <div class="title">LSPD HANDBOOK</div>
+        <div class="subtitle">Field Reference</div>
+      </div>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-label">Overview</div>
+      <button class="nav-link active" data-page="home">🏠&nbsp; Home</button>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-label">Operations</div>
+      <button class="nav-link" data-page="radio">📻&nbsp; Radio Communication</button>
+      <button class="nav-link" data-page="tactical">🚨&nbsp; Tactical Procedures</button>
+      <button class="nav-link" data-page="weapons">🔫&nbsp; Weapon Classes</button>
+      <button class="nav-link" data-page="ic">⭐&nbsp; Incident Command</button>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-label">Legal</div>
+      <button class="nav-link" data-page="legal">⚖️&nbsp; Suspect Processing</button>
+      <button class="nav-link" data-page="court">🏛️&nbsp; Court Verdict Flow</button>
+      <button class="nav-link" data-page="penal">📜&nbsp; Penal Codes</button>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-label">Tools</div>
+      <button class="nav-link" data-page="report">📝&nbsp; Patrol Report Generator</button>
+      <button class="nav-link" data-page="promotion">🎖️&nbsp; Promotion Qualifications</button>
+    </div>
+
+    <div class="sidebar-officer">
+      <b>LSPD HANDBOOK</b>
+LSPD HANDBOOK SATU CERITA ROLEPLAY</div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <button id="menuToggle">☰ Menu</button>
+      <b style="font-family:'Oswald',sans-serif;">LSPD HANDBOOK</b>
+      <span></span>
+    </div>
+
+    <div class="content">
+
+      <!-- HOME -->
+      <section class="page active" id="page-home">
+        <div class="page-header">
+          <div>
+            <div class="eyebrow">Los Santos Police Department</div>
+            <h1>LSPD Field Handbook</h1>
+          </div>
+          <button class="print-btn" onclick="window.print()">🖨 Save as PDF</button>
+        </div>
+
+        <div class="card navy">
+          <h3>Welcome, Officer.</h3>
+          <p style="color:#c3ccdf;">The LSPD Handbook serves as a comprehensive guide for law enforcement officers, detailing essential procedures, protocols, and best practices. It is crucial for maintaining order, ensuring officer safety, and protecting the rights of the public.</p>
+        </div>
+
+        <div class="grid-3">
+          <div class="card">
+            <h3>📻 Radio Communication</h3>
+            <p style="font-size:13px;">10-codes, phonetic alphabet, and callsign structure for clean dispatch traffic.</p>
+          </div>
+          <div class="card">
+            <h3>🚨 Tactical SOPs</h3>
+            <p style="font-size:13px;">Step-by-step procedures for traffic stops, felony stops, and pursuits.</p>
+          </div>
+          <div class="card">
+            <h3>📜 Penal Code</h3>
+            <p style="font-size:13px;">Quick-reference charges, fines, and thresholds for MDT reporting.</p>
+          </div>
+        </div>
+
+        <section class="block">
+          <h2>How to use this handbook</h2>
+          <p class="lead">Use the sidebar to jump between sections. Every page has a "Save as PDF" button for printing. The Patrol Report Generator builds a formatted report you can copy straight into your forum or MDT.</p>
+        </section>
+
+        <footer class="page-footer">
+          <span>LSPD HANDBOOK SATU CERITA ROLEPLAY BY LORRAINE © LSPD</span>
+          <span>v1.0</span>
+        </footer>
+      </section>
+
+      <!-- RADIO -->
+      <section class="page" id="page-radio">
+        <div class="page-header">
+          <div><div class="eyebrow">Operations</div><h1>Radio Communication</h1></div>
+          <button class="print-btn" onclick="window.print()">🖨 Save as PDF</button>
+        </div>
+        <p class="lead">Clear and concise communication is crucial in police radio operations to ensure that messages are understood promptly and accurately, reducing the risk of misunderstandings during critical situations.</p>
+
+        <section class="block">
+          <h2>Example radio traffic</h2>
+          <div class="radio-box"><span class="tag">[UNIT]</span> Dispatch, 71-Lincoln-666 doing a 10-35 situation on Vespucci Blvd, 10-60 will be a black sedan with 2 occupants inside. Standby for updates.
+<span class="tag">[DISPATCH]</span> 10-4, 71-Lincoln-666, copy traffic stop Vespucci Blvd.</div>
+        </section>
+
+         <section class="block">
+          <h2>Example Updating radio traffic</h2>
+          <div class="radio-box"><span class="tag">[UNIT]</span> Dispatch, for the last 10-35 situation on Vespucci Blvd, it's now changing into active 10-57 (pursuit) . Requesting 10-78 (backup) on my 10-20 (location). Suspect is now heading to (street or realtime location)
+<span class="tag">[DETAILS]</span> "Suspect is now heading north on Vespucci Blvd, taking right on T section, heading west on San Andreas Ave.".</div>
+        </section>
+
+        <section class="block">
+          <h2>Ten-Codes</h2>
+<table>
+  <tr><th style="width:80px;">Code</th><th>Meaning</th></tr>
+  <tr><td class="code">10-1</td><td>Regroup / Meet at Location</td></tr>
+  <tr><td class="code">10-2</td><td>Good Signal</td></tr>
+  <tr><td class="code">10-3</td><td>Stop Transmitting / Clear the Radio!</td></tr>
+  <tr><td class="code">10-4</td><td>Affirmative / Solid Copy</td></tr>
+  <tr><td class="code">10-7</td><td>Not in Service</td></tr>
+  <tr><td class="code">10-8</td><td>Going Back on Service</td></tr>
+  <tr><td class="code">10-9</td><td>Please Repeat</td></tr>
+  <tr><td class="code">10-11</td><td>Discharge of Firearms</td></tr>
+  <tr><td class="code">10-12</td><td>Reporting Status / Stand-by</td></tr>
+  <tr><td class="code">10-13</td><td>Armed Civilian</td></tr>
+  <tr><td class="code">10-20</td><td>Requesting Location / Position</td></tr>
+  <tr><td class="code">10-21</td><td>Report Your Status</td></tr>
+  <tr><td class="code">10-23</td><td>Arrived on Scene</td></tr>
+  <tr><td class="code">10-29</td><td>Check for Warrants</td></tr>
+  <tr><td class="code">10-31</td><td>Crime in Progress</td></tr>
+  <tr><td class="code">10-31A</td><td>Burglary (House Robbery)</td></tr>
+  <tr><td class="code">10-31B</td><td>Store Robbery</td></tr>
+  <tr><td class="code">10-32</td><td>Armed Suspect</td></tr>
+  <tr><td class="code">10-35</td><td>Stopping a Vehicle (Traffic Stop)</td></tr>
+  <tr><td class="code">10-36</td><td>Felony Stop</td></tr>
+  <tr><td class="code">10-41</td><td>On Duty</td></tr>
+  <tr><td class="code">10-42</td><td>Off Duty</td></tr>
+  <tr><td class="code">10-47</td><td>Injured Civilian</td></tr>
+  <tr><td class="code">10-50</td><td>Traffic Accident</td></tr>
+  <tr><td class="code">10-52</td><td>Ambulance Required / Medical Assistance</td></tr>
+  <tr><td class="code">10-55</td><td>Illegal Race in Progress</td></tr>
+  <tr><td class="code">10-57</td><td>Hot Pursuit Situation</td></tr>
+  <tr><td class="code">10-60</td><td>Vehicle Description</td></tr>
+  <tr><td class="code">10-66</td><td>Active Shooting</td></tr>
+  <tr><td class="code">10-76</td><td>En Route / Responding</td></tr>
+  <tr><td class="code">10-77</td><td>Need Assistance (Non-Emergency)</td></tr>
+  <tr><td class="code">10-78</td><td>Need Assistance</td></tr>
+  <tr><td class="code">10-88</td><td>Suspicious Hand-off</td></tr>
+  <tr><td class="code">10-90</td><td>Bank Robbery in Progress</td></tr>
+  <tr><td class="code">10-95</td><td>Suspect in Custody</td></tr>
+  <tr><td class="code">10-99A</td><td>Officer Down</td></tr>
+  <tr><td class="code">10-99B</td><td>Medic Down</td></tr>
+</table>
+
+<h2>Identity Codes</h2>
+<table>
+  <tr><th style="width:80px;">Code</th><th>Meaning</th></tr>
+  <tr><td class="code">IC1</td><td>White</td></tr>
+  <tr><td class="code">IC2</td><td>Black</td></tr>
+  <tr><td class="code">IC3</td><td>Latino</td></tr>
+  <tr><td class="code">IC4</td><td>Middle Eastern</td></tr>
+  <tr><td class="code">IC5</td><td>Asian</td></tr>
+  <tr><td class="code">IC6</td><td>Unknown Ethnicity</td></tr>
+</table>
+
+<h2>Importance Responding Codes</h2>
+<table>
+  <tr><th style="width:80px;">Code</th><th>Meaning</th></tr>
+  <tr><td class="code">Code 1</td><td>Routine Call: No Lights / No Sirens</td></tr>
+  <tr><td class="code">Code 2</td><td>Routine Call: Lights On, Airhorn at Intersections</td></tr>
+  <tr><td class="code">Code 3</td><td>Emergency Response Status 5E (With Lights and Sirens)</td></tr>
+  <tr><td class="code">Code 4</td><td>All Clear</td></tr>
+  <tr><td class="code">Code 5</td><td>Investigating the Area</td></tr>
+</table>
+
+<h2>Phonetic Alphabet</h2>
+
+<table>
+  <tr>
+    <th style="width:60px;">Letter</th>
+    <th>Word</th>
+    <th style="width:60px;">Letter</th>
+    <th>Word</th>
+    <th style="width:60px;">Letter</th>
+    <th>Word</th>
+  </tr>
+
+  <tr>
+    <td class="code">A</td><td>Adam</td>
+    <td class="code">J</td><td>John</td>
+    <td class="code">S</td><td>Sam</td>
+  </tr>
+
+  <tr>
+    <td class="code">B</td><td>Boy</td>
+    <td class="code">K</td><td>King</td>
+    <td class="code">T</td><td>Tom</td>
+  </tr>
+
+  <tr>
+    <td class="code">C</td><td>Charles</td>
+    <td class="code">L</td><td>Lincoln</td>
+    <td class="code">U</td><td>Union</td>
+  </tr>
+
+  <tr>
+    <td class="code">D</td><td>David</td>
+    <td class="code">M</td><td>Mary</td>
+    <td class="code">V</td><td>Victor</td>
+  </tr>
+
+  <tr>
+    <td class="code">E</td><td>Edward</td>
+    <td class="code">N</td><td>Nora</td>
+    <td class="code">W</td><td>William</td>
+  </tr>
+
+  <tr>
+    <td class="code">F</td><td>Frank</td>
+    <td class="code">O</td><td>Ocean</td>
+    <td class="code">X</td><td>X-Ray</td>
+  </tr>
+
+  <tr>
+    <td class="code">G</td><td>George</td>
+    <td class="code">P</td><td>Paul</td>
+    <td class="code">Y</td><td>Young</td>
+  </tr>
+
+  <tr>
+    <td class="code">H</td><td>Henry</td>
+    <td class="code">Q</td><td>Queen</td>
+    <td class="code">Z</td><td>Zebra</td>
+  </tr>
+
+  <tr>
+    <td class="code">I</td><td>Ida</td>
+    <td class="code">R</td><td>Robert</td>
+    <td></td><td></td>
+  </tr>
+</table>
+          <p class="lead" style="font-size:12.5px;"></p>
+        </section>
+
+        <section class="block">
+          <h2>Callsign structure</h2>
+          <p>Format: <b>[Division] [Phonetic Letter] [Badge Number]</b> — e.g. badge <code>71102</code> solo patrol becomes <b>71-Lincoln-666</b>; with a partner, <b>71-Adam-666</b>.</p>
+          <table>
+            <tr><th>Callsign</th><th>Assignment</th></tr>
+            <tr><td class="code">LINCOLN</td><td>Solo patrol unit</td></tr>
+            <tr><td class="code">ADAM</td><td>Two-officer patrol unit</td></tr>
+            <tr><td class="code">HENRY</td><td>Interceptor / pursuit unit</td></tr>
+            <tr><td class="code">DAVID</td><td>Metro / SWAT unit</td></tr>
+            <tr><td class="code">AIR</td><td>Air support</td></tr>
+          </table>
+
+          <h2>Radio Abbreviations</h2>
+
+<table>
+  <tr>
+    <th style="width:80px;">Code</th>
+    <th>Meaning</th>
+    <th style="width:80px;">Code</th>
+    <th>Meaning</th>
+    <th style="width:80px;">Code</th>
+    <th>Meaning</th>
+  </tr>
+
+  <tr>
+    <td class="code">ADW</td><td>Assault with a Deadly Weapon</td>
+    <td class="code">DOC</td><td>Department of Corrections</td>
+    <td class="code">LVC</td><td>Lost Visual Contact</td>
+  </tr>
+
+  <tr>
+    <td class="code">ASAP</td><td>As Soon As Possible</td>
+    <td class="code">DOA</td><td>Dead On Arrival</td>
+    <td class="code">MDT</td><td>Mobile Data Terminal</td>
+  </tr>
+
+  <tr>
+    <td class="code">BLS</td><td>Basic Life Support</td>
+    <td class="code">DOB</td><td>Date of Birth</td>
+    <td class="code">PIT</td><td>Precision Immobilization Technique</td>
+  </tr>
+
+  <tr>
+    <td class="code">BOLO</td><td>Be On the Look Out</td>
+    <td class="code">DUI</td><td>Driving Under the Influence</td>
+    <td class="code">SIW</td><td>Standard-Issue Weapon</td>
+  </tr>
+
+  <tr>
+    <td class="code">CCW</td><td>Carrying a Concealed Weapon</td>
+    <td class="code">EMS</td><td>Emergency Medical Services</td>
+    <td class="code">VCB</td><td>Visual Contact Broken</td>
+  </tr>
+
+  <tr>
+    <td></td><td></td>
+    <td class="code">FTO</td><td>Field Training Officer</td>
+    <td></td><td></td>
+  </tr>
+
+  <tr>
+    <td></td><td></td>
+    <td class="code">GOV</td><td>Government</td>
+    <td></td><td></td>
+  </tr>
+
+  <tr>
+    <td></td><td></td>
+    <td class="code">GSW</td><td>Gun Shot Wound</td>
+    <td></td><td></td>
+  </tr>
+
+  <tr>
+    <td></td><td></td>
+    <td class="code">LEO</td><td>Law Enforcement Officer</td>
+    <td></td><td></td>
+  </tr>
+</table>
+        </section>
+      </section>
+
+     <!-- TACTICAL -->
+      <section class="page" id="page-tactical">
+        <div class="page-header">
+          <div><div class="eyebrow">Operations</div><h1>Tactical Procedures</h1></div>
+          <button class="print-btn" onclick="window.print()">🖨 Save as PDF</button>
+        </div>
+        <p class="lead">Tactical SOPs must be followed to protect officers and civilians. Violations may result in operational and administrative consequences.</p>
+
+        <section class="block">
+          <h2>Traffic Stop (10-35)</h2>
+          <ol class="steps">
+            <li><b>Stop the vehicle.</b> Activate lights/sirens, then announce over the mic: "This is LSPD to [Vehicle description], please pull over your vehicle." Position your patrol car directly behind the suspect vehicle and instruct the driver: "Turn off your engine and remain inside the vehicle."</li>
+            <li><b>Report to dispatch.</b> Send a traffic stop report over the radio. Example: "Central, this is [Callsign] doing 10-35 / Traffic Stop at [Location]. 60 / Vehicle is [Vehicle description] with [number] occupants inside. We are Code 4 right now, standby for further update."</li>
+            <li><b>Approach the vehicle.</b>
+              <ol type="a">
+                <li>Exit your vehicle and walk along the left side toward the driver's door.</li>
+                <li>Show your badge and identify yourself.</li>
+                <li>Request ID and driver's license. If the driver refuses, state the reason for the stop (e.g. speeding, broken tail light, etc.).</li>
+                <li>Once ID and license are provided, proceed to the next step.</li>
+              </ol>
+            </li>
+            <li><b>Check identity on the MDT.</b> Return to your patrol car and check the suspect's name for a <b>WARRANT</b> (wanted), <b>BOLO</b> (flagged vehicle), or prior traffic violations.
+              <div class="callout"><b>If a WARRANT/BOLO is found</b> → immediately upgrade to a Felony Stop and call for backup (10-78).</div>
+            </li>
+            <li><b>Confirm the reason for the stop.</b> Return to the suspect's vehicle and ask: <i>"Do you know why I pulled you over?"</i> If the answer is wrong or unclear, explain the reason in detail. If correct, let them explain.</li>
+            <li><b>Issue a resolution.</b> Decide on a <b>Warning</b> (verbal caution for minor violations) or a <b>Ticket</b> (fine). Return the ID and license, then say: <i>"Have a great day, drive safe."</i></li>
+          </ol>
+        </section>
+
+        <section class="block">
+          <h2>Felony / High-Risk Stop (10-36)</h2>
+          <div class="callout"><b>Never</b> perform a felony stop alone — wait for a minimum of 2 backup units before initiating.</div>
+          <ol class="steps">
+            <li><b>Report to dispatch before initiating.</b> Give your callsign, location, reason for the stop, vehicle description, and occupant count, then request backup. Example: "Central, this is [Callsign], doing a felony stop at [Location], reason: [Reason, e.g. armed robbery suspect]. Vehicle: [Vehicle description] with [number] occupants. Requesting 78 / Backup, need additional units ASAP."</li>
+            <li><b>Wait for a minimum of 2 backup units</b> to arrive on scene before taking any action.</li>
+            <li><b>Form up in a V-block.</b> Backup 1 positions rear-left of the suspect vehicle, Backup 2 rear-right, and the primary unit centers behind, forming a V-shaped perimeter.</li>
+            <li><b>Coordinate the exit over radio.</b> Example: "To units on felony stop, exiting vehicles in 3... 2... 1... GO." All officers exit simultaneously, using vehicle doors as cover, with firearms aimed steadily at the suspect.</li>
+            <li><b>Issue verbal commands one step at a time,</b> in a firm, clear voice:
+              <ol type="a">
+                <li>"Turn off the engine and throw the keys out!"</li>
+                <li>"Hands out the window, open the door from outside!"</li>
+                <li>"Walk backward slowly toward my voice, keep your hands up!"</li>
+                <li>"Get on your knees and cross your legs!"</li>
+              </ol>
+            </li>
+            <li><b>Cuff and secure the suspect (don't forget to do Miranda Rights) </b> once they are kneeling and compliant, then place them in the primary unit's vehicle.</li>
+            <li><b>Search the suspect vehicle.</b> Backup units collect illegal weapons, narcotics, and stolen property. Photograph the vehicle and evidence, then call for a tow/impound per policy.</li>
+            <li><b>Transport and process.</b> Bring the suspect to the nearest station (Alta / MRPD) for booking — mugshot, interrogation, and charges/fines/jail time per the arrest report.</li>
+          </ol>
+        </section>
+
+        <section class="block">
+          <h2>Pursuit Protocol (10-57)</h2>
+          <div class="grid-2">
+            <div class="card"><h3>Primary unit</h3><p style="font-size:13px;">Maintains visual contact. 100% focus on safe driving — no radio call-outs.</p></div>
+            <div class="card"><h3>Secondary unit</h3><p style="font-size:13px;">Acts as navigator — calls out direction, streets, and suspect behavior.</p></div>
+          </div>
+          <p>Maximum active units in a pursuit: <b>4–5</b>. PIT maneuvers require verbal authorization from the Incident Commander or supervising sergeant.</p>
+        </section>
+      </section>
+
+      <!-- WEAPONS -->
+      <section class="page" id="page-weapons">
+        <div class="page-header">
+          <div><div class="eyebrow">Operations</div><h1>Weapon Classes</h1></div>
+          <button class="print-btn" onclick="window.print()">🖨 Save as PDF</button>
+        </div>
+        <p class="lead">Example weapon classification — replace with your server's approved loadouts.</p>
+        <div class="grid-3">
+          <div class="card"><h3><span class="pill">Class 1</span></h3><p style="font-size:13px;">Sidearms — standard-issue pistols, non-lethal tools.</p></div>
+          <div class="card"><h3><span class="pill gold">Class 2</span></h3><p style="font-size:13px;">SMGs, shotguns, revolvers — supervisor authorization required.</p></div>
+          <div class="card"><h3><span class="pill danger">Class 3</span></h3><p style="font-size:13px;">Rifles / long guns — IC or Class 3 certification required.</p></div>
+        </div>
+      </section>
+
+      <!-- IC -->
+      <section class="page" id="page-ic">
+        <div class="page-header">
+          <div><div class="eyebrow">Operations</div><h1>Incident Command</h1></div>
+          <button class="print-btn" onclick="window.print()">🖨 Save as PDF</button>
+        </div>
+        <blockquote class="card" style="font-style:italic;">"As Incident Commander, you're expected to show decisiveness, high situational awareness, and courage in tactical decision-making. The IC holds absolute responsibility for the operation."</blockquote>
+        <section class="block">
+          <h2>Responsibilities</h2>
+          <ul>
+            <li>Oversee evidence integrity from crime scene to storage.</li>
+            <li>Assign Primary, Secondary, and Spike units before pursuits escalate.</li>
+            <li>Authorize special tactics: spike strips, PIT maneuvers, vehicle boxing.</li>
+            <li>May order radio silence: "10-3, clear the comms" during critical moments.</li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- LEGAL -->
+      <section class="page" id="page-legal">
+        <div class="page-header">
+          <div><div class="eyebrow">Legal</div><h1>Suspect Processing</h1></div>
+          <button class="print-btn" onclick="window.print()">🖨 Save as PDF</button>
+        </div>
+
+        <div class="callout gold">
+          <b>Miranda Rights:</b> "You have the right to remain silent. Anything you say can and will be used against you in a court of law. You have the right to an attorney. If you cannot afford one, one will be provided for you. Do you understand these rights as I have read them to you?"
+        </div>
+
+        <ol class="steps">
+          <li><b>Transport & holding.</b> Bring the suspect to a holding cell. Call EMS first if injured.</li>
+          <li><b>Search & seizure.</b> Search the suspect fully; document and log all seized items in the MDT.</li>
+          <li><b>Identity verification.</b> Photograph ID or run fingerprints; take a mugshot.</li>
+          <li><b>File charges.</b> Enter charges in the MDT, read them aloud, and record the suspect's plea.</li>
+          <li><b>Process payment or transfer to jail</b> depending on plea and sentence.</li>
+        </ol>
+      </section>
+
+      <!-- COURT -->
+      <section class="page" id="page-court">
+        <div class="page-header">
+          <div><div class="eyebrow">Legal</div><h1>Court Verdict Flow</h1></div>
+          <button class="print-btn" onclick="window.print()">🖨 Save as PDF</button>
+        </div>
+        <p class="lead">Process for suspects who plead "Not Guilty" and request a hearing.</p>
+        <div class="flow">
+          <div class="flow-step"><b>Suspect arrested</b> — Miranda rights read.</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-step"><b>Pleads "Not Guilty"</b> — rejects the initial MDT charge.</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-branch">
+            <div class="flow-step"><b>Lawyer available</b><br><span style="font-size:12.5px;">Counsel joins mediation at the station.</span></div>
+            <div class="flow-step"><b>No lawyer</b><br><span style="font-size:12.5px;">Suspect held pending court date.</span></div>
+          </div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-step"><b>Court trial</b> — judge reviews evidence, testimony, and MDT reports.</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-branch">
+            <div class="flow-step bad"><b>Guilty</b><br><span style="font-size:12.5px;">Sentence served at Penitentiary.</span></div>
+            <div class="flow-step good"><b>Not Guilty</b><br><span style="font-size:12.5px;">Released, no criminal record added.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PENAL CODE -->
+      <section class="page" id="page-penal">
+        <div class="page-header">
+          <div><div class="eyebrow">Legal</div><h1>Penal Code Cheat Sheet</h1></div>
+          <button class="print-btn" onclick="window.print()">🖨 Save as PDF</button>
+        </div>
+        <div class="callout gold"><b>Example only:</b> Replace these codes, fines, and thresholds with your own server's penal code before publishing.</div>
+
+        <section class="block">
+          <h2>Traffic offenses</h2>
+          <table>
+            <tr><th>Code</th><th>Charge</th><th>Fine</th><th>Jail</th></tr>
+            <tr><td class="code">T-101</td><td>Reckless driving</td><td>$500</td><td>—</td></tr>
+            <tr><td class="code">T-102</td><td>Evading police (no pursuit)</td><td>$1,500</td><td>2 min</td></tr>
+            <tr><td class="code">T-103</td><td>Evading police (active pursuit)</td><td>$3,000</td><td>8 min</td></tr>
+          </table>
+        </section>
+
+        <section class="block">
+          <h2>Weapons & contraband</h2>
+          <table>
+            <tr><th>Code</th><th>Charge</th><th>Fine</th><th>Jail</th></tr>
+            <tr><td class="code">W-201</td><td>Unlawful possession of a firearm (Class 1)</td><td>$2,000</td><td>5 min</td></tr>
+            <tr><td class="code">W-202</td><td>Unlawful possession of a firearm (Class 2)</td><td>$4,000</td><td>10 min</td></tr>
+            <tr><td class="code">W-203</td><td>Unlawful possession of a firearm (Class 3)</td><td>$7,500</td><td>18 min</td></tr>
+          </table>
+        </section>
+
+        <section class="block">
+          <h2>Narcotics</h2>
+          <table>
+            <tr><th>Code</th><th>Charge</th><th>Threshold</th><th>Fine</th><th>Jail</th></tr>
+            <tr><td class="code">N-301</td><td>Misdemeanor possession</td><td>&lt; 50g</td><td>$1,000</td><td>3 min</td></tr>
+            <tr><td class="code">N-302</td><td>Felony possession</td><td>≥ 50g</td><td>$3,500</td><td>9 min</td></tr>
+            <tr><td class="code">N-303</td><td>Distribution</td><td>≥ 500g</td><td>$8,000</td><td>Court Verdict</td></tr>
+          </table>
+        </section>
+
+        <section class="block">
+          <h2>Robbery</h2>
+          <table>
+            <tr><th>Code</th><th>Charge</th><th>Fine</th><th>Jail</th></tr>
+            <tr><td class="code">R-401</td><td>Burglary</td><td>$2,500</td><td>6 min</td></tr>
+            <tr><td class="code">R-402</td><td>Commercial robbery</td><td>$5,000</td><td>12 min</td></tr>
+            <tr><td class="code">R-403</td><td>Federal bank robbery</td><td>$15,000</td><td>Court Verdict</td></tr>
+          </table>
+        </section>
+      </section>
+
+      <!-- REPORT GENERATOR -->
+      <section class="page" id="page-report">
+        <div class="page-header">
+          <div><div class="eyebrow">Tools</div><h1>Patrol Report Generator</h1></div>
+          <button class="print-btn" onclick="window.print()">🖨 Save as PDF</button>
+        </div>
+        <p class="lead">Fill in the fields below — the formatted report updates live and can be copied straight to your forum or Discord.</p>
+
+        <div class="card">
+          <h3>General information</h3>
+          <div class="form-grid">
+            <div class="field"><label>Officer name</label><input id="f-name" placeholder="e.g. John Doe" oninput="renderReport()"></div>
+            <div class="field"><label>Badge number</label><input id="f-badge" placeholder="e.g. 71102" oninput="renderReport()"></div>
+            <div class="field"><label>Rank</label><input id="f-rank" placeholder="e.g. Police Officer II" oninput="renderReport()"></div>
+            <div class="field"><label>Station</label><input id="f-station" placeholder="e.g. Mission Row" oninput="renderReport()"></div>
+            <div class="field"><label>Date</label><input id="f-date" type="date" oninput="renderReport()"></div>
+            <div class="field"><label>Incident ID</label><input id="f-incident" placeholder="e.g. #4471" oninput="renderReport()"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Narrative</h3>
+          <div class="field">
+            <label>What happened</label>
+            <textarea id="f-narrative" placeholder="Describe the incident chronologically — time, location, actions taken, outcome..." oninput="renderReport()"></textarea>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Evidence</h3>
+          <div id="evidence-list"></div>
+          <button class="add-btn" onclick="addEvidenceRow()">+ Add evidence</button>
+        </div>
+
+        <div class="card navy">
+          <h3>Live preview</h3>
+          <div class="output-box" id="report-output">Fill in the form above to generate your report.</div>
+          <button class="copy-btn" onclick="copyReport()">📋 Copy report</button>
+        </div>
+      </section>
+
+      <!-- PROMOTION -->
+      <section class="page" id="page-promotion">
+        <div class="page-header">
+          <div><div class="eyebrow">Career</div><h1>Promotion Qualifications</h1></div>
+          <button class="print-btn" onclick="window.print()">🖨 Save as PDF</button>
+        </div>
+        <table>
+          <tr><th>Rank</th><th>Requirement</th><th>Exam</th></tr>
+          <tr><td>Rookie → Officer II</td><td>5 patrol reports, completed probation</td><td>Written + practical: codes, traffic stops</td></tr>
+          <tr><td>Officer II → Officer III (FTO)</td><td>10 patrol reports, 2x IC role</td><td>SOP & penal code, pursuit behavior</td></tr>
+          <tr><td>Officer III → Sergeant</td><td>15 patrol reports, 10x IC role</td><td>Leadership evaluation</td></tr>
+        </table>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<script>
+  // ---------- navigation ----------
+  const links = document.querySelectorAll('.nav-link');
+  const pages = document.querySelectorAll('.page');
+  links.forEach(link => {
+    link.addEventListener('click', () => {
+      links.forEach(l => l.classList.remove('active'));
+      pages.forEach(p => p.classList.remove('active'));
+      link.classList.add('active');
+      document.getElementById('page-' + link.dataset.page).classList.add('active');
+      document.getElementById('sidebar').classList.remove('open');
+      window.scrollTo(0,0);
+    });
+  });
+  document.getElementById('menuToggle').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.toggle('open');
+  });
+
+  // ---------- evidence rows ----------
+  let evidenceCount = 0;
+  function addEvidenceRow(){
+    evidenceCount++;
+    const id = 'ev-' + evidenceCount;
+    const row = document.createElement('div');
+    row.className = 'evidence-row';
+    row.id = id;
+    row.innerHTML = `
+      <input placeholder="Evidence name (e.g. Vehicle)" oninput="renderReport()">
+      <input placeholder="Image URL (optional)" oninput="renderReport()">
+      <button class="icon-btn" onclick="document.getElementById('${id}').remove(); renderReport();">✕</button>
+    `;
+    document.getElementById('evidence-list').appendChild(row);
+    renderReport();
+  }
+  addEvidenceRow();
+
+  // ---------- report rendering ----------
+  function renderReport(){
+    const name = document.getElementById('f-name').value || '—';
+    const badge = document.getElementById('f-badge').value || '—';
+    const rank = document.getElementById('f-rank').value || '—';
+    const station = document.getElementById('f-station').value || '—';
+    const date = document.getElementById('f-date').value || '—';
+    const incident = document.getElementById('f-incident').value || '—';
+    const narrative = document.getElementById('f-narrative').value || '(no narrative entered yet)';
+
+    let evidenceText = '';
+    document.querySelectorAll('.evidence-row').forEach(row => {
+      const inputs = row.querySelectorAll('input');
+      const evName = inputs[0].value;
+      const evUrl = inputs[1].value;
+      if (evName || evUrl){
+        evidenceText += `  • ${evName || 'Untitled'}${evUrl ? ' — ' + evUrl : ''}\n`;
+      }
+    });
+    if (!evidenceText) evidenceText = '  (none attached)\n';
+
+    const output =
+`====================================
+ LOS SANTOS POLICE DEPARTMENT
+ PATROL REPORT
+====================================
+
+A. GENERAL INFORMATION
+  Officer Name : ${name}
+  Badge Number : ${badge}
+  Rank         : ${rank}
+  Station      : ${station}
+  Date         : ${date}
+  Incident ID  : ${incident}
+
+B. NARRATIVE
+  ${narrative.replace(/\n/g,'\n  ')}
+
+C. EVIDENCE
+${evidenceText}
+------------------------------------
+Generated via LSPD Handbook Report Tool`;
+
+    document.getElementById('report-output').textContent = output;
+  }
+
+  function copyReport(){
+    const text = document.getElementById('report-output').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 1800);
+    });
+  }
+
+  renderReport();
+</script>
+
+</body>
+</html>
