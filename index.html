@@ -252,6 +252,7 @@
       <div class="nav-label">Overview</div>
       <button class="nav-link active" data-page="home">🏠&nbsp; Home</button>
       <button class="nav-link" data-page="chain">🔗&nbsp; Chain of Command</button>
+      <button class="nav-link" data-page="divisions">🏢&nbsp; Divisions</button>
       <button class="nav-link" data-page="equipment">🎒&nbsp; Patrol Equipment</button>
       <button class="nav-link" data-page="responsibilities">📋&nbsp; Rank Responsibilities</button>
     </div>
@@ -260,13 +261,20 @@
       <div class="nav-label">Operations</div>
       <button class="nav-link" data-page="radio">📻&nbsp; Radio Communication</button>
       <button class="nav-link" data-page="tactical">🚨&nbsp; Tactical Procedures</button>
-      <button class="nav-link" data-page="weapons">🔫&nbsp; Weapon Classes</button>
       <button class="nav-link" data-page="ic">⭐&nbsp; Incident Command</button>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-label">Weapons</div>
+      <button class="nav-link" data-page="weapons">🔫&nbsp; Weapon Classes</button>
+      <button class="nav-link" data-page="police-weapons">🔫&nbsp; Police Weapons</button>
+      <button class="nav-link" data-page="illegal-weapons">🔫&nbsp; Illegal Weapons</button>
     </div>
 
     <div class="nav-group">
       <div class="nav-label">Legal</div>
       <button class="nav-link" data-page="legal">⚖️&nbsp; Suspect Processing</button>
+      <button class="nav-link" data-page="bls">❤️&nbsp; BLS & Miranda Rights</button>
       <button class="nav-link" data-page="court">🏛️&nbsp; Court Verdict Flow</button>
       <button class="nav-link" data-page="penal">📜&nbsp; Penal Codes</button>
     </div>
@@ -690,6 +698,24 @@ LEO (LAW ENFORCEMENT OFFICER) HANDBOOK SATU CERITA ROLEPLAY</div>
         </div>
       </section>
 
+      <!-- POLICE WEAPONS -->
+      <section class="page" id="page-police-weapons">
+        <div class="page-header">
+          <div><div class="eyebrow">Weapons</div><h1>Police Weapons</h1></div>
+          <button class="print-btn" onclick="window.print()">🖨 Save as PDF</button>
+        </div>
+        <p class="lead">Content coming soon.</p>
+      </section>
+
+      <!-- ILLEGAL WEAPONS -->
+      <section class="page" id="page-illegal-weapons">
+        <div class="page-header">
+          <div><div class="eyebrow">Weapons</div><h1>Illegal Weapons</h1></div>
+          <button class="print-btn" onclick="window.print()">🖨 Save as PDF</button>
+        </div>
+        <p class="lead">Content coming soon.</p>
+      </section>
+
       <!-- IC -->
       <section class="page" id="page-ic">
         <div class="page-header">
@@ -726,6 +752,36 @@ LEO (LAW ENFORCEMENT OFFICER) HANDBOOK SATU CERITA ROLEPLAY</div>
           <li><b>File charges.</b> Enter charges in the MDT, read them aloud, and record the suspect's plea.</li>
           <li><b>Process payment or transfer to jail</b> depending on plea and sentence.</li>
         </ol>
+      </section>
+
+      <!-- BLS & MIRANDA RIGHTS -->
+      <section class="page" id="page-bls">
+        <div class="page-header">
+          <div><div class="eyebrow">Legal</div><h1>BLS & Miranda Rights</h1></div>
+          <button class="print-btn" onclick="window.print()">🖨 Save as PDF</button>
+        </div>
+
+        <section class="block">
+          <h2>1. BLS Procedure</h2>
+          <ol class="steps">
+            <li><b>Secure the injured Suspect/Deputy</b> and move them to a safe location.</li>
+            <li><b>Perform first aid with CPR</b> (CPR emote). Prioritize the Deputy/Officer first.</li>
+            <li><b>Signal that BLS is being performed</b> (/me Performing BLS / Applying BLS).</li>
+            <li><b>Once BLS has been given,</b> confirm it (/do BLS given / BLS Applied).</li>
+            <li><b>Contact EMS</b> from the nearest location (Alta / Roxwood Hospital).</li>
+            <li><b>Inform EMS</b> that BLS has already been performed.</li>
+          </ol>
+        </section>
+
+        <section class="block">
+          <h2>2. Miranda Rights</h2>
+          <div class="callout gold">
+            <b>English:</b> "You have the right to remain silent, anything you say can and will be used against you in the court of law. You have the right to an attorney. If you cannot afford one, one will be provided to you. Do you understand?"
+          </div>
+          <div class="callout gold">
+            <b>Bahasa Indonesia:</b> "Anda berhak untuk diam, apapun yang anda katakan dapat melawan anda di pengadilan. Anda berhak memanggil seorang pengacara, jika tidak ada maka negara yang akan memberikannya untuk anda. Apakah anda mengerti?"
+          </div>
+        </section>
       </section>
 
       <!-- COURT -->
@@ -859,6 +915,40 @@ LEO (LAW ENFORCEMENT OFFICER) HANDBOOK SATU CERITA ROLEPLAY</div>
               <li><b>Deputy Training</b></li>
             </ol>
           </section>
+        </div>
+      </section>
+
+      <!-- DIVISIONS -->
+      <section class="page" id="page-divisions">
+        <div class="page-header">
+          <div><div class="eyebrow">Overview</div><h1>Divisions</h1></div>
+          <button class="print-btn" onclick="window.print()">🖨 Save as PDF</button>
+        </div>
+        <p class="lead">Specialized divisions operating alongside the standard chain of command, each with a distinct mission and scope of responsibility.</p>
+
+        <div class="card">
+          <h3>1. Internal Affairs Division (IAD)</h3>
+          <p style="font-size:13.5px;">Also known as the Disciplinary Branch, the Internal Affairs Division is a unit within an organization, particularly law enforcement or security agencies, that oversees internal discipline and ethical standards. The primary objective of the IAD is to ensure that personnel act in accordance with professional standards and to investigate potential misconduct, unethical behavior, or legal violations.</p>
+        </div>
+
+        <div class="card">
+          <h3>2. Criminal Investigation Division (CID)</h3>
+          <p style="font-size:13.5px;">The Criminal Investigation Division is the current investigative division for the Los Santos Police Department. The CID is responsible for investigations comprised of eight sections: robbery, homicide, special assault, kidnapping, gangs, firearms, narcotics, and business. In addition to this, they are responsible for the investigation of serious and street-level violent crime, sexual assaults, offences against minors, and a wide array of property offences.</p>
+        </div>
+
+        <div class="card">
+          <h3>3. Metropolitan</h3>
+          <p style="font-size:13.5px;">Metropolitan is a division that provides support to the Department's community-based policing efforts by enhancing community outreach, providing advanced levels of in-service training, and supporting Area and specialized detectives in locating known, violent criminals. The division provides resources for warrant service and the apprehension of fugitives throughout the City. Other assignments range from high-risk barricaded situations, warrant service, and training Department personnel in tactics and firearms, to assisting investigators in solving major crimes.</p>
+        </div>
+
+        <div class="card">
+          <h3>4. Recruitment and Employment Division (RED)</h3>
+          <p style="font-size:13.5px;">The Recruitment and Employment Division is the specialized unit responsible for finding, attracting, and guiding new applicants through the police officer hiring process. It acts as the main link between the community and the police department.</p>
+        </div>
+
+        <div class="card">
+          <h3>5. Air Support Division (ASD)</h3>
+          <p style="font-size:13.5px;">Air Support Division is a division in the LSPD providing support to ground units using helicopters or air vehicles.</p>
         </div>
       </section>
 
